@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultCover = document.getElementById("resultCover");
   const resultBlurb = document.getElementById("resultBlurb");
   const resultAudio = document.getElementById("resultAudio");
+  const quizNameInput = document.getElementById("quizName");
 
   const scrambleLevels = [
     { answer: "Timeless", scrambled: "SLEMITES", hint: "Hint: Album - Hurry Up Tomorrow" },
@@ -75,11 +76,11 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       question: "Which artist's music did I not like at first until you changed my mind",
-      answers: ["travis scott", "travis", "jacques bermon webster"]
+      answers: ["travis scott", "travis"]
     },
     {
       question: "What do I say to you went you block me from shifting gears.",
-      answers: ["leg", "i say leg", "you say leg"]
+      answers: ["leg", "you say leg"]
     },
     {
       question: "What's my favorite animal",
@@ -92,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       question: "Out of those ex's/Situationships who was my biggest heartbreak?",
-      answers: ["shikara"]
+      answers: ["shikara", "Shikara"]
     },
     {
       question: "What part of my body do I not like to show? Don't think sexually,think simple.",
@@ -100,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       question: "What animal do i have a phobia of?",
-      answers: ["snake", "snakes"]
+      answers: ["snake", "snakes", "a snake"]
     },
     {
       question: "Have I ever been ghosted—and by whom?",
@@ -112,15 +113,15 @@ document.addEventListener("DOMContentLoaded", () => {
       answers: ["aidan"]
     },
     {
-      question: "What want most when in a relationship?",
+      question: "What would I want most when in a relationship?",
       options: "Options: Honesty, Forgiveness, Communication, Trust",
       answers: ["communication"]
     },
     {
-      question: "What was the biggest thing about Shikara that I had a major problem with.",
-      options: "Options: She wanted my full attention and time, she didn't want to get to know my friends, she gets upset over small things, none of the above",
+      question: "What was the biggest thing about Shikara that I had a major problem with. Pick 1-4 and type your answer out",
+      options: "Options: 1.She wanted my full attention and time, 2.She didn't want to get to know my friends, 3.She gets upset over small things, 4.None of the above",
       answers: [
-        "she didn't want to get to know my friends",
+        "She didn't want to get to know my friends",
         "didn't want to get to know my friends",
         "she did not want to get to know my friends",
         "not wanting to get to know my friends"
@@ -132,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       question: "Last question, nice and easy to end off. What are you saved as in my Phone",
-      answers: ["bala boi", "balaboi", "bala boy"]
+      answers: ["bala boi", "balaboi", "Bala Boi"]
     }
   ];
 
@@ -161,9 +162,14 @@ document.addEventListener("DOMContentLoaded", () => {
   let friendQuizCorrect = 0;
   const friendQuizResponses = [];
 
-  let inviteWasPlaying = false;
   let inviteTime = 0;
   let scrollYBeforeQuiz = 0;
+
+  function blurActiveField() {
+    if (document.activeElement && typeof document.activeElement.blur === "function") {
+      document.activeElement.blur();
+    }
+  }
 
   function pauseAllAudio() {
     if (music) {
@@ -171,7 +177,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (friendResultAudio) {
       friendResultAudio.pause();
-      friendResultAudio.currentTime = 0;
     }
     if (resultAudio) {
       resultAudio.pause();
@@ -181,9 +186,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function playInviteMusic() {
     if (!music) return;
-    pauseAllAudio();
-    music.src = "timeless.mp3";
-    music.load();
+
+    if (friendResultAudio) {
+      friendResultAudio.pause();
+      friendResultAudio.currentTime = 0;
+    }
+
+    if (resultAudio) {
+      resultAudio.pause();
+      resultAudio.currentTime = 0;
+    }
+
+    const currentSrc = (music.getAttribute("src") || "").toLowerCase();
+    if (currentSrc !== "timeless.mp3") {
+      music.src = "timeless.mp3";
+      music.load();
+    }
+
     music.volume = 0.7;
     music.loop = true;
     music.play().catch(() => {});
@@ -191,12 +210,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function playWhistle() {
     if (!friendResultAudio) return;
-    pauseAllAudio();
-    friendResultAudio.src = "Whistle.mp3";
-    friendResultAudio.load();
+
+    if (music) {
+      music.pause();
+    }
+
+    if (resultAudio) {
+      resultAudio.pause();
+      resultAudio.currentTime = 0;
+    }
+
+    const currentSrc = (friendResultAudio.getAttribute("src") || "").toLowerCase();
+    if (currentSrc !== "whistle.mp3") {
+      friendResultAudio.src = "Whistle.mp3";
+      friendResultAudio.load();
+    }
+
     friendResultAudio.volume = 0.7;
     friendResultAudio.loop = true;
-    friendResultAudio.play().catch(() => {});
+
+    if (friendResultAudio.paused) {
+      friendResultAudio.play().catch(() => {});
+    }
   }
 
   function stopWhistle() {
@@ -209,6 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".page").forEach((page) => page.classList.remove("active"));
     const target = document.getElementById(pageId);
     if (target) target.classList.add("active");
+    blurActiveField();
   }
 
   function normalizeBasic(value) {
@@ -295,9 +331,10 @@ document.addEventListener("DOMContentLoaded", () => {
     scrambleInput.value = "";
     scrambleInput.disabled = false;
     scrambleSubmit.disabled = false;
-    scrambleInput.focus();
     scrambleFailed.classList.remove("show");
     scrambleComplete.classList.remove("show");
+
+    setTimeout(() => blurActiveField(), 0);
 
     scrambleTimerId = setInterval(() => {
       scrambleSeconds -= 1;
@@ -382,7 +419,8 @@ document.addEventListener("DOMContentLoaded", () => {
     friendQuizAnswer.value = friendQuizResponses[friendQuizIndex] || "";
     friendQuizError.textContent = "";
     friendQuizNextBtn.textContent = friendQuizIndex === friendQuizQuestions.length - 1 ? "Finish quiz" : "Next";
-    friendQuizAnswer.focus();
+
+    setTimeout(() => blurActiveField(), 0);
   }
 
   function rainBlueSparks() {
@@ -453,7 +491,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function enterQuizAudioMode() {
     stopResultAudio();
-    inviteWasPlaying = music ? !music.paused : false;
     inviteTime = music ? (music.currentTime || 0) : 0;
     pauseAllAudio();
   }
@@ -489,6 +526,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (resultCover) {
       resultCover.classList.remove("show");
       resultCover.removeAttribute("src");
+      resultCover.onload = null;
     }
     if (resultBlurb) resultBlurb.textContent = "";
     quizOverlay?.classList.remove("on");
@@ -505,6 +543,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       if (quizScreen) quizScreen.scrollTop = 0;
       window.scrollTo({ top: 0, behavior: "auto" });
+      blurActiveField();
     }, 0);
   }
 
@@ -523,6 +562,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function computeQuizResult() {
     if (!quizForm) return { error: "Quiz not found." };
     const data = new FormData(quizForm);
+    const playerName = (data.get("quizName") || "").toString().trim();
+
+    if (!playerName) {
+      return { error: "Type your name first." };
+    }
 
     for (let i = 1; i <= 6; i++) {
       if (!data.get(`q${i}`)) return { error: "Answer all 6 questions first." };
@@ -538,7 +582,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const top = Object.keys(scores).filter((key) => scores[key] === max);
     const chosen = top[Math.floor(Math.random() * top.length)];
 
-    return { chosen };
+    return { chosen, playerName };
   }
 
   function playResultSong(songKey) {
@@ -558,12 +602,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function revealQuizResult(songKey) {
+  function revealQuizResult(songKey, playerName) {
     if (!quizResult || !quizResultInner) return;
+
+    const safeName = playerName && playerName.trim() ? playerName.trim() : "You";
 
     quizResult.style.display = "block";
     quizResultInner.classList.remove("show");
-    quizResultInner.innerHTML = `<h2>You are <span>${SONG_PRETTY[songKey] || "a Mystery Track"}</span></h2>`;
+    quizResultInner.innerHTML = `<h2>${safeName}, you are <span>${SONG_PRETTY[songKey] || "a Mystery Track"}</span></h2>`;
 
     if (resultBlurb) resultBlurb.textContent = SONG_BLURB[songKey] || "";
 
@@ -631,6 +677,7 @@ document.addEventListener("DOMContentLoaded", () => {
     resetQuizUI();
     stopResultAudio();
     if (quizScreen) quizScreen.scrollTop = 0;
+    setTimeout(() => blurActiveField(), 0);
   });
 
   quizFinishBtn?.addEventListener("click", () => {
@@ -647,6 +694,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    revealQuizResult(res.chosen);
+    revealQuizResult(res.chosen, res.playerName);
   });
 });
