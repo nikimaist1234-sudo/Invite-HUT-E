@@ -639,6 +639,21 @@ body.quiz-open .quiz-screen {
   margin-right: 8px;
 }
 
+.quiz-name-input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.22);
+  background: rgba(0,0,0,0.18);
+  color: #fff;
+  outline: none;
+  font-size: 1rem;
+}
+
+.quiz-name-input::placeholder {
+  color: rgba(255,255,255,0.68);
+}
+
 .quiz-result {
   display: none;
   margin-top: 24px;
@@ -691,13 +706,25 @@ body.quiz-open .quiz-screen {
 }
 
 .quiz-retry-btn,
-.quiz-close-btn,
-.quiz-play-btn {
+.quiz-close-btn {
   padding: 12px 18px;
   border-radius: 999px;
   border: 1px solid rgba(0,0,0,0.18);
   background: rgba(0,0,0,0.08);
   cursor: pointer;
+}
+
+.quiz-play-btn {
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.18);
+  background: #000000;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.quiz-play-btn:hover {
+  background: #1f1f1f;
 }
 
 .quiz-overlay {
