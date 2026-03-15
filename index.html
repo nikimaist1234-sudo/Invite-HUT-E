@@ -38,7 +38,7 @@
           <p class="scramble-hint" id="scrambleHint">Hint: Album - Hurry Up Tomorrow</p>
 
           <div class="scramble-input-wrap">
-            <input id="scrambleInput" class="scramble-input" type="text" autocomplete="off" spellcheck="false" placeholder="Type the song here" />
+            <input id="scrambleInput" class="scramble-input" type="text" autocomplete="off" spellcheck="false" placeholder="Tap here to type the song" />
             <button id="scrambleSubmit" class="primary action-btn" type="button">Submit</button>
           </div>
 
@@ -66,7 +66,7 @@
         <p class="friend-quiz-extra" id="friendQuizExtra"></p>
         <h2 class="friend-quiz-question" id="friendQuizQuestion">Question text</h2>
         <p class="friend-quiz-options" id="friendQuizOptions"></p>
-        <input id="friendQuizAnswer" class="friend-quiz-input" type="text" autocomplete="off" spellcheck="false" placeholder="Type your answer here" />
+        <input id="friendQuizAnswer" class="friend-quiz-input" type="text" autocomplete="off" spellcheck="false" placeholder="Tap here to type your answer" />
         <p class="friend-quiz-error" id="friendQuizError"></p>
         <button class="primary" id="friendQuizNextBtn" type="button">Next</button>
       </div>
@@ -179,13 +179,26 @@
       <p class="quiz-album">Hurry Up Tomorrow edition</p>
 
       <form class="quiz-form" id="quizForm">
+        <div class="quiz-q quiz-name-box">
+          <h3>First, type your name.</h3>
+          <input
+            type="text"
+            id="quizName"
+            name="quizName"
+            class="quiz-name-input"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Tap here to type your name"
+          />
+        </div>
+
         <div class="quiz-q">
-          <h3>What sounds more like your energy on a night out?</h3>
-          <label><input type="radio" name="q1" value="timeless" /> Confident and untouchable</label>
-          <label><input type="radio" name="q1" value="wake-me-up" /> Soft but electric</label>
-          <label><input type="radio" name="q1" value="the-abyss" /> Quiet and mysterious</label>
-          <label><input type="radio" name="q1" value="cry-for-me" /> Emotional but pretty</label>
-          <label><input type="radio" name="q1" value="nigara-falls" /> Chill and romantic</label>
+          <h3>I fyou had to pick one guilty-pleasure snack at midnight, what is it?</h3>
+          <label><input type="radio" name="q1" value="timeless" /> Chips/Popcorn</label>
+          <label><input type="radio" name="q1" value="wake-me-up" /> Chocolate/Sweets</label>
+          <label><input type="radio" name="q1" value="the-abyss" /> Ice cream</label>
+          <label><input type="radio" name="q1" value="cry-for-me" /> Pancakes/Waffles</label>
+          <label><input type="radio" name="q1" value="nigara-falls" /> None of the above...I'm trying to be healthy</label>
         </div>
 
         <div class="quiz-q">
@@ -198,39 +211,39 @@
         </div>
 
         <div class="quiz-q">
-          <h3>What would your friends say about you?</h3>
-          <label><input type="radio" name="q3" value="nigara-falls" /> Calm and easy to be around</label>
-          <label><input type="radio" name="q3" value="timeless" /> Too cool for stress</label>
-          <label><input type="radio" name="q3" value="cry-for-me" /> Deep feelings, big heart</label>
-          <label><input type="radio" name="q3" value="the-abyss" /> Hard to read but interesting</label>
-          <label><input type="radio" name="q3" value="wake-me-up" /> Fun, warm and lively</label>
+          <h3>Which language would you love to learn just for fun?</h3>
+          <label><input type="radio" name="q3" value="nigara-falls" /> French</label>
+          <label><input type="radio" name="q3" value="timeless" /> Spanish</label>
+          <label><input type="radio" name="q3" value="cry-for-me" /> Arabic</label>
+          <label><input type="radio" name="q3" value="the-abyss" /> Italian</label>
+          <label><input type="radio" name="q3" value="wake-me-up" /> Japanese</label>
         </div>
 
         <div class="quiz-q">
-          <h3>Pick a late-night setting.</h3>
-          <label><input type="radio" name="q4" value="the-abyss" /> Rooftop staring into the city</label>
-          <label><input type="radio" name="q4" value="wake-me-up" /> Loud lights and dancing</label>
-          <label><input type="radio" name="q4" value="cry-for-me" /> Window seat with thoughts</label>
-          <label><input type="radio" name="q4" value="timeless" /> VIP section, obviously</label>
-          <label><input type="radio" name="q4" value="nigara-falls" /> Scenic drive with music</label>
+          <h3>Pick your favorite genre of music.</h3>
+          <label><input type="radio" name="q4" value="the-abyss" /> Pop</label>
+          <label><input type="radio" name="q4" value="wake-me-up" /> R&B</label>
+          <label><input type="radio" name="q4" value="cry-for-me" /> 80's and 90's</label>
+          <label><input type="radio" name="q4" value="timeless" /> Rap</label>
+          <label><input type="radio" name="q4" value="nigara-falls" /> Amapiano</label>
         </div>
 
         <div class="quiz-q">
-          <h3>Which line fits you best?</h3>
-          <label><input type="radio" name="q5" value="cry-for-me" /> Feel it all</label>
-          <label><input type="radio" name="q5" value="timeless" /> Stay iconic</label>
-          <label><input type="radio" name="q5" value="wake-me-up" /> Bring me to life</label>
-          <label><input type="radio" name="q5" value="the-abyss" /> Into the unknown</label>
-          <label><input type="radio" name="q5" value="nigara-falls" /> Drift with the moment</label>
+          <h3>Which one of these places would you travel to for vacation</h3>
+          <label><input type="radio" name="q5" value="cry-for-me" /> Brazil </label>
+          <label><input type="radio" name="q5" value="timeless" /> Atlanta</label>
+          <label><input type="radio" name="q5" value="wake-me-up" /> London</label>
+          <label><input type="radio" name="q5" value="the-abyss" /> Los Angeles</label>
+          <label><input type="radio" name="q5" value="nigara-falls" /> Canada</label>
         </div>
 
         <div class="quiz-q">
-          <h3>Pick your perfect ending.</h3>
-          <label><input type="radio" name="q6" value="wake-me-up" /> Bright and unforgettable</label>
-          <label><input type="radio" name="q6" value="nigara-falls" /> Peaceful and pretty</label>
-          <label><input type="radio" name="q6" value="timeless" /> Legendary</label>
-          <label><input type="radio" name="q6" value="cry-for-me" /> Bittersweet</label>
-          <label><input type="radio" name="q6" value="the-abyss" /> Dark and cinematic</label>
+          <h3>Pick a lyric.</h3>
+          <label><input type="radio" name="q6" value="wake-me-up" /> I'm losing my connection to the reality</label>
+          <label><input type="radio" name="q6" value="nigara-falls" /> The nights are never late</label>
+          <label><input type="radio" name="q6" value="timeless" /> Love that never fades, it’s timeless</label>
+          <label><input type="radio" name="q6" value="cry-for-me" /> Tears are proof you felt it too</label>
+          <label><input type="radio" name="q6" value="the-abyss" /> One last time, say that you want me too</label>
         </div>
 
         <button class="primary" id="quizFinishBtn" type="button">Reveal my song</button>
@@ -252,9 +265,9 @@
 
   <div id="neonFlood"></div>
 
-  <audio id="bgMusic" src="Timeless.mp3" preload="auto" loop></audio>
+  <audio id="bgMusic" src="Sao Paulo.mp3" preload="auto" loop></audio>
   <audio id="resultAudio" preload="auto"></audio>
-  <audio id="friendResultAudio" src="Whistle.mp3" preload="auto"></audio>
+  <audio id="friendResultAudio" src="Whistle.mp3" preload="auto" loop></audio>
 
   <script src="script.js"></script>
 </body>
