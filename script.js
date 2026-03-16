@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       question: "What big collection do I have displayed in my room on my shelf?",
-      answers: ["energy drink collection", "energy drinks", "energy drink", "your energy drink collection", "energy drinks collection", "can collection", "switch can collection"]
+      answers: ["energy drink collection", "energy drinks", "energy drink", "my energy drink collection", "energy drinks collection"]
     },
     {
       question: "Which member of Blackpink is my bias?",
@@ -124,8 +124,8 @@ document.addEventListener("DOMContentLoaded", () => {
       answers: ["kpop demon hunters", "k-pop demon hunters", "kpop demon hunter", "k-pop demon hunter"]
     },
     {
-      question: "What was the biggest thing about Shikara that I had a major problem with? Pick 1-4 and  type it out.",
-      options: "Options: 1.She wanted my full attention and time, 2.She didn't want to get to know my friends, 3.She gets upset over small things, 4.None of the above",
+      question: "What was the biggest thing about Shikara that I had a major problem with?",
+      options: "Options: She wanted my full attention and time, She didn't want to get to know my friends, She gets upset over small things, None of the above",
       answers: [
         "she didn't want to get to know my friends",
         "didn't want to get to know my friends",
@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       question: "What happened on the 6th of November 2025?",
-      answers: ["u got into a car crash", "car crash", "you got into a car crash", "car accident", "you were in a car crash", "got into a car crash","you crashed your car", "you got into an accident"]
+      answers: ["i got into a car crash", "car crash", "you got into a car crash", "car accident", "you were in a car crash", "got into a car crash"]
     },
     {
       question: "What in my car do I still need to fix since I first got my car? I always say it will give me more power.",
@@ -210,8 +210,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const currentSrc = (music.getAttribute("src") || "").toLowerCase();
-    if (currentSrc !== "Sao-Paulo.mp3") {
-      music.src = "Sao-Paulo.mp3";
+    if (currentSrc !== "timeless.mp3") {
+      music.src = "timeless.mp3";
       music.load();
     }
 
@@ -434,16 +434,15 @@ document.addEventListener("DOMContentLoaded", () => {
       friendQuizNextBtn.textContent = "Continue";
       
       // Create dig deeper display
-      const digDeeperDiv = document.getElementById("digDeeperText");
+      let digDeeperDiv = document.getElementById("digDeeperText");
       if (!digDeeperDiv) {
-        const newDiv = document.createElement("div");
-        newDiv.id = "digDeeperText";
-        newDiv.className = "dig-deeper-text";
-        newDiv.innerHTML = "Time to dig deeper into your brain, lets see how well you really know me Brother Ethan";
-        friendQuizQuestion.parentNode.insertBefore(newDiv, friendQuizQuestion);
-      } else {
-        digDeeperDiv.style.display = "block";
+        digDeeperDiv = document.createElement("div");
+        digDeeperDiv.id = "digDeeperText";
+        digDeeperDiv.className = "dig-deeper-text";
+        friendQuizQuestion.parentNode.insertBefore(digDeeperDiv, friendQuizQuestion);
       }
+      digDeeperDiv.innerHTML = "Time to dig deeper into your brain, lets see how well you really know me Brother Ethan";
+      digDeeperDiv.style.display = "block";
       return;
     }
 
@@ -502,9 +501,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function submitFriendQuizAnswer() {
-    // Handle dig deeper interstitial
+    // Handle dig deeper interstitial - when showing dig deeper, just hide it and advance
     if (showDigDeeper) {
       showDigDeeper = false;
+      // We already processed question 10 (index 9), so now move to question 11 (index 10)
+      friendQuizIndex = 10;
       renderFriendQuizQuestion();
       return;
     }
