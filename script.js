@@ -44,6 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultAudio = document.getElementById("resultAudio");
   const quizNameInput = document.getElementById("quizName");
 
+  // Variable to store Sao-Paulo.mp3 pause time for resuming later
+  let saoPauloPauseTime = 0;
+
   const scrambleLevels = [
     { answer: "Timeless", scrambled: "SLEMITES", hint: "Hint: Album - Hurry Up Tomorrow" },
     { answer: "Open Hearts", scrambled: "SNEH RTOEPA", hint: "Hint: Album - Hurry Up Tomorrow" },
@@ -196,6 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Play Sao-Paulo.mp3 for the invite sections (page1, page2, page3, page4)
   function playInviteMusic() {
     if (!music) return;
 
@@ -209,9 +213,10 @@ document.addEventListener("DOMContentLoaded", () => {
       resultAudio.currentTime = 0;
     }
 
-    const currentSrc = (music.getAttribute("src") || "").toLowerCase();
-    if (currentSrc !== "timeless.mp3") {
-      music.src = "timeless.mp3";
+    // Always use Sao-Paulo.mp3 for invite music
+    const currentSrc = (music.getAttribute("src") || "").toLowerCase().replace(/-/g, '');
+    if (!currentSrc.includes("saopaulo")) {
+      music.src = "Sao-Paulo.mp3";
       music.load();
     }
 
@@ -220,10 +225,14 @@ document.addEventListener("DOMContentLoaded", () => {
     music.play().catch(() => {});
   }
 
-  function playWhistle() {
+  // Play Slow-Motion.mp3 for the "How well do you know me" quiz
+  // This pauses Sao-Paulo where it is and saves the timestamp
+  function playSlowMotion() {
     if (!friendResultAudio) return;
 
+    // Pause Sao-Paulo and save the current time
     if (music) {
+      saoPauloPauseTime = music.currentTime || 0;
       music.pause();
     }
 
@@ -232,9 +241,10 @@ document.addEventListener("DOMContentLoaded", () => {
       resultAudio.currentTime = 0;
     }
 
-    const currentSrc = (friendResultAudio.getAttribute("src") || "").toLowerCase();
-    if (currentSrc !== "whistle.mp3") {
-      friendResultAudio.src = "Whistle.mp3";
+    // Use Slow-Motion.mp3 for the friend quiz
+    const currentSrc = (friendResultAudio.getAttribute("src") || "").toLowerCase().replace(/-/g, '');
+    if (!currentSrc.includes("slowmotion")) {
+      friendResultAudio.src = "Slow-Motion.mp3";
       friendResultAudio.load();
     }
 
@@ -246,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function stopWhistle() {
+  function stopSlowMotion() {
     if (!friendResultAudio) return;
     friendResultAudio.pause();
     friendResultAudio.currentTime = 0;
@@ -362,7 +372,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function goToNextScrambleLevel() {
     if (scrambleIndex >= scrambleLevels.length - 1) {
       showOnlyPage("pageA");
-      playWhistle();
+      // Start Slow-Motion for the friend quiz intro
+      playSlowMotion();
       return;
     }
     loadScrambleLevel(scrambleIndex + 1);
@@ -482,7 +493,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showFriendQuizResults() {
     showOnlyPage("friendQuizResults");
-    playWhistle();
+    // Slow-Motion continues playing for results page
     rainBlueSparks();
 
     friendQuizScore.textContent = `You got ${friendQuizCorrect}/${friendQuizQuestions.length} questions correct!`;
@@ -493,10 +504,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function unlockInvite() {
-    stopWhistle();
+    // Stop Slow-Motion quiz music
+    stopSlowMotion();
+    
+    // Resume Sao-Paulo from where it was paused
     document.body.classList.remove("locked");
     document.body.classList.add("scroll-mode");
-    playInviteMusic();
+    
+    if (music) {
+      const currentSrc = (music.getAttribute("src") || "").toLowerCase().replace(/-/g, '');
+      if (!currentSrc.includes("saopaulo")) {
+        music.src = "Sao-Paulo.mp3";
+        music.load();
+      }
+      try {
+        music.currentTime = saoPauloPauseTime || 0;
+      } catch (e) {}
+      music.volume = 0.7;
+      music.loop = true;
+      music.play().catch(() => {});
+    }
+    
     document.getElementById("page2")?.scrollIntoView({ behavior: "smooth" });
   }
 
@@ -549,27 +577,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function enterQuizAudioMode() {
     stopResultAudio();
-    inviteTime = music ? (music.currentTime || 0) : 0;
+    // Save current Sao-Paulo time before pausing
+    if (music && !music.paused) {
+      saoPauloPauseTime = music.currentTime || 0;
+    }
     pauseAllAudio();
   }
 
   function exitQuizAudioMode() {
     stopResultAudio();
-    pauseAllAudio();
+    
+    if (friendResultAudio) {
+      friendResultAudio.pause();
+      friendResultAudio.currentTime = 0;
+    }
 
     if (document.body.classList.contains("scroll-mode")) {
+      // Resuming invite - play Sao-Paulo from where it was paused
       if (music) {
-        music.src = "timeless.mp3";
-        music.load();
+        const currentSrc = (music.getAttribute("src") || "").toLowerCase().replace(/-/g, '');
+        if (!currentSrc.includes("saopaulo")) {
+          music.src = "Sao-Paulo.mp3";
+          music.load();
+        }
         try {
-          music.currentTime = inviteTime || 0;
+          music.currentTime = saoPauloPauseTime || 0;
         } catch (e) {}
         music.volume = 0.7;
         music.loop = true;
         music.play().catch(() => {});
       }
     } else {
-      playWhistle();
+      // Still in quiz mode - play Slow-Motion
+      playSlowMotion();
     }
   }
 
@@ -694,6 +734,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   startBtn?.addEventListener("click", () => {
     showOnlyPage("page1");
+    // Start with Sao-Paulo.mp3
+    if (music) {
+      music.src = "Sao-Paulo.mp3";
+      music.load();
+    }
     playInviteMusic();
     loadScrambleLevel(0);
   });
@@ -720,7 +765,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     showOnlyPage("friendQuizPage");
-    playWhistle();
+    // Slow-Motion is already playing from goToNextScrambleLevel, keep it playing
     renderFriendQuizQuestion();
   });
 
