@@ -54,20 +54,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const friendQuizQuestions = [
     {
-      question: "When did I first meet you.",
-      answers: ["year 1 block 2", "i met you in year 1 block 2", "block 2 of your first year", "first year block 2", "year one block two"]
+      question: "When did I first meet you?",
+      answers: ["year 1 block 2", "year 1, block 2", "year one block two", "block 2 of year 1", "first year block 2", "year 1, block 2"]
     },
     {
-      question: "Which artist will forever be my number 1 artist.",
+      question: "Which artist will forever be my number 1 artist?",
       answers: ["the weeknd", "weeknd", "abel tesfaye", "abel"]
     },
     {
-      question: "Whats my go-to alcoholic drink?",
+      question: "What's my go-to alcoholic drink?",
       answers: ["savanna dry", "savanna", "savannah dry"]
     },
     {
-      question: "Which movie genre do I hate the most",
-      answers: ["horror", "horror movies", "scary movies"]
+      question: "What big collection do I have displayed in my room on my shelf?",
+      answers: ["energy drink collection", "energy drinks", "energy drink", "my energy drink collection", "energy drinks collection"]
     },
     {
       question: "Which member of Blackpink is my bias?",
@@ -75,33 +75,40 @@ document.addEventListener("DOMContentLoaded", () => {
       answers: ["jisoo", "kim jisoo"]
     },
     {
-      question: "Which artist's music did I not like at first until you changed my mind",
+      question: "Which artist's music did I not like at first until you changed my mind?",
       answers: ["travis scott", "travis"]
     },
     {
-      question: "What do I say to you went you block me from shifting gears.",
-      answers: ["leg", "you say leg"]
+      question: "What do I say to you when you block me from shifting gears?",
+      answers: ["leg", "you say leg", "say leg"]
     },
     {
-      question: "What's my favorite animal",
+      question: "What's my favorite animal?",
       answers: ["shark", "a shark", "sharks"]
     },
     {
-      extra: "Time to dig deeper into your brain, lets see how well you really know me Brother Ethan",
-      question: "How many ex's/situationships have I had.",
+      question: "What's my favorite kind of shows?",
+      answers: ["thai shows", "thai", "thai dramas", "thai series"]
+    },
+    {
+      question: "What animal do I have a phobia of?",
+      answers: ["snake", "snakes", "a snake"]
+    },
+    {
+      question: "How many ex's/situationships have I had?",
       answers: ["7", "seven"]
     },
     {
       question: "Out of those ex's/Situationships who was my biggest heartbreak?",
-      answers: ["shikara", "Shikara"]
+      answers: ["shikara"]
     },
     {
-      question: "What part of my body do I not like to show? Don't think sexually,think simple.",
+      question: "What part of my body do I not like to show? Don't think sexually, think simple.",
       answers: ["my feet", "feet", "your feet"]
     },
     {
-      question: "What animal do i have a phobia of?",
-      answers: ["snake", "snakes", "a snake"]
+      question: "What's the +-5 Year Plan's Kpop group song?",
+      answers: ["gnarly"]
     },
     {
       question: "Have I ever been ghosted—and by whom?",
@@ -113,27 +120,31 @@ document.addEventListener("DOMContentLoaded", () => {
       answers: ["aidan"]
     },
     {
-      question: "What would I want most when in a relationship?",
-      options: "Options: Honesty, Forgiveness, Communication, Trust",
-      answers: ["communication"]
+      question: "What movie did me, you and Navika watch together in my car the one day at campus?",
+      answers: ["kpop demon hunters", "k-pop demon hunters", "kpop demon hunter", "k-pop demon hunter"]
     },
     {
-      question: "What was the biggest thing about Shikara that I had a major problem with. Pick 1-4 and type your answer out",
-      options: "Options: 1.She wanted my full attention and time, 2.She didn't want to get to know my friends, 3.She gets upset over small things, 4.None of the above",
+      question: "What was the biggest thing about Shikara that I had a major problem with?",
+      options: "Options: She wanted my full attention and time, She didn't want to get to know my friends, She gets upset over small things, None of the above",
       answers: [
-        "She didn't want to get to know my friends",
+        "she didn't want to get to know my friends",
         "didn't want to get to know my friends",
         "she did not want to get to know my friends",
-        "not wanting to get to know my friends"
+        "not wanting to get to know my friends",
+        "she didn't want to get to know your friends"
       ]
     },
     {
       question: "What happened on the 6th of November 2025?",
-      answers: ["i got into a car crash", "car crash", "you got into a car crash", "car accident", "you were in a car crash"]
+      answers: ["i got into a car crash", "car crash", "you got into a car crash", "car accident", "you were in a car crash", "got into a car crash"]
     },
     {
-      question: "Last question, nice and easy to end off. What are you saved as in my Phone",
-      answers: ["bala boi", "balaboi", "Bala Boi"]
+      question: "What in my car do I still need to fix since I first got my car? I always say it will give me more power.",
+      answers: ["intake manifold", "the intake manifold", "intake", "manifold"]
+    },
+    {
+      question: "Last question, nice and easy to end off. What are you saved as in my Phone?",
+      answers: ["bala boi", "balaboi", "bala boii"]
     }
   ];
 
@@ -161,6 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let friendQuizIndex = 0;
   let friendQuizCorrect = 0;
   const friendQuizResponses = [];
+  let showDigDeeper = false;
 
   let inviteTime = 0;
   let scrollYBeforeQuiz = 0;
@@ -198,8 +210,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const currentSrc = (music.getAttribute("src") || "").toLowerCase();
-    if (currentSrc !== "Sao-Paulo.mp3") {
-      music.src = "Sao-Paulo.mp3";
+    if (currentSrc !== "timeless.mp3") {
+      music.src = "timeless.mp3";
       music.load();
     }
 
@@ -411,11 +423,42 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderFriendQuizQuestion() {
+    // Check if we need to show the dig deeper interstitial
+    if (showDigDeeper) {
+      friendQuizProgress.textContent = "";
+      friendQuizQuestion.textContent = "";
+      friendQuizOptions.textContent = "";
+      friendQuizExtra.textContent = "";
+      friendQuizAnswer.style.display = "none";
+      friendQuizError.textContent = "";
+      friendQuizNextBtn.textContent = "Continue";
+      
+      // Create dig deeper display
+      const digDeeperDiv = document.getElementById("digDeeperText");
+      if (!digDeeperDiv) {
+        const newDiv = document.createElement("div");
+        newDiv.id = "digDeeperText";
+        newDiv.className = "dig-deeper-text";
+        newDiv.innerHTML = "Time to dig deeper into your brain, lets see how well you really know me Brother Ethan";
+        friendQuizQuestion.parentNode.insertBefore(newDiv, friendQuizQuestion);
+      } else {
+        digDeeperDiv.style.display = "block";
+      }
+      return;
+    }
+
+    // Hide dig deeper if it exists
+    const digDeeperDiv = document.getElementById("digDeeperText");
+    if (digDeeperDiv) {
+      digDeeperDiv.style.display = "none";
+    }
+
     const item = friendQuizQuestions[friendQuizIndex];
     friendQuizProgress.textContent = `Question ${friendQuizIndex + 1} of ${friendQuizQuestions.length}`;
     friendQuizQuestion.textContent = item.question;
     friendQuizOptions.textContent = item.options || "";
     friendQuizExtra.textContent = item.extra || "";
+    friendQuizAnswer.style.display = "block";
     friendQuizAnswer.value = friendQuizResponses[friendQuizIndex] || "";
     friendQuizError.textContent = "";
     friendQuizNextBtn.textContent = friendQuizIndex === friendQuizQuestions.length - 1 ? "Finish quiz" : "Next";
@@ -443,7 +486,7 @@ document.addEventListener("DOMContentLoaded", () => {
     playWhistle();
     rainBlueSparks();
 
-    friendQuizScore.textContent = `You got ${friendQuizCorrect}/18 question correct!`;
+    friendQuizScore.textContent = `You got ${friendQuizCorrect}/${friendQuizQuestions.length} questions correct!`;
     friendQuizMessage.textContent =
       friendQuizCorrect > 15
         ? "Wow Ethan, well done, I'm very proud of you man, You know me so well"
@@ -459,6 +502,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function submitFriendQuizAnswer() {
+    // Handle dig deeper interstitial
+    if (showDigDeeper) {
+      showDigDeeper = false;
+      renderFriendQuizQuestion();
+      return;
+    }
+
     const answer = friendQuizAnswer.value.trim();
 
     if (!answer) {
@@ -471,6 +521,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (answerMatches(answer, current.answers)) {
       friendQuizCorrect += 1;
+    }
+
+    // Check if we just finished question 10 (index 9) to show dig deeper
+    if (friendQuizIndex === 9) {
+      showDigDeeper = true;
+      renderFriendQuizQuestion();
+      return;
     }
 
     if (friendQuizIndex === friendQuizQuestions.length - 1) {
@@ -653,6 +710,14 @@ document.addEventListener("DOMContentLoaded", () => {
     friendQuizIndex = 0;
     friendQuizCorrect = 0;
     friendQuizResponses.length = 0;
+    showDigDeeper = false;
+    
+    // Remove any existing dig deeper element
+    const existingDigDeeper = document.getElementById("digDeeperText");
+    if (existingDigDeeper) {
+      existingDigDeeper.remove();
+    }
+    
     showOnlyPage("friendQuizPage");
     playWhistle();
     renderFriendQuizQuestion();
