@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const friendQuizQuestions = [
     {
       question: "When did I first meet you?",
-      answers: ["year 1 block 2", "year 1, block 2", "year one block two", "block 2 of year 1", "first year block 2", "year 1, block 2"]
+      answers: ["year 1 block 2", "year 1, block 2", "year one block two", "block 2 of year 1", "first year block 2", "year one, block two", "first year block two", "first year in block 2"]
     },
     {
       question: "Which artist will forever be my number 1 artist?",
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       question: "What big collection do I have displayed in my room on my shelf?",
-      answers: ["energy drink collection", "energy drinks", "energy drink", "my energy drink collection", "energy drinks collection"]
+      answers: ["energy drink collection", "energy drinks", "energy drink", "my energy drink collection", "energy drinks collection", "can collection", "can", "cans", "your can collection"]
     },
     {
       question: "Which member of Blackpink is my bias?",
@@ -151,19 +151,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   ];
 
-  const SONG_KEYS = ["cry-for-me", "nigara-falls", "the-abyss", "timeless", "wake-me-up"];
+  const SONG_KEYS = ["cry-for-me", "nigara-falls", "the-abyss", "Sao-Paulo", "wake-me-up"];
   const SONG_PRETTY = {
     "cry-for-me": "Cry For Me",
     "nigara-falls": "Nigara Falls",
     "the-abyss": "The Abyss",
-    "timeless": "Timeless",
+    "sao-paulo": "Sao Paulo",
     "wake-me-up": "Wake Me Up"
   };
   const SONG_BLURB = {
     "cry-for-me": "You're soft-hearted, dramatic in the best way, and you feel everything properly.",
     "nigara-falls": "You're calm, pretty, and easy to be around. Quiet vibe, strong presence.",
     "the-abyss": "You're mysterious, deep, and a little hard to read, which makes people more curious.",
-    "timeless": "You carry yourself like a star. Confident, cool, and impossible to ignore.",
+    "Sao-Paulo": "You carry yourself like a star. Confident, cool, and impossible to ignore.",
     "wake-me-up": "You bring energy, warmth, and life into every room you walk into."
   };
 
