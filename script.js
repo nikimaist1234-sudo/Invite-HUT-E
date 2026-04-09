@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "cry-for-me": "Cry For Me",
     "nigara-falls": "Nigara Falls",
     "the-abyss": "The Abyss",
-    "sao-paulo": "Sao Paulo",
+    "Sao-Paulo": "Sao Paulo",
     "wake-me-up": "Wake Me Up"
   };
   const SONG_BLURB = {
